@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  api:
+    build: .
+    environment:
+      STORE: redis
+      REDIS_ADDR: redis:6379
+      STRATEGY: token_bucket
+      ADDR: :8080
+    ports: ["8080:8080"]
+    depends_on: [redis]
